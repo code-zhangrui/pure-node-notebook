@@ -1,0 +1,26 @@
+{
+  "name": "pure-node-notebook",
+  "version": "1.0.0",
+  "description": "a node notebook",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/code-zhangrui/pure-node-notebook.git"
+  },
+  "keywords": [
+    "node",
+    "notebook"
+  ],
+  "author": "zhangrui",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/code-zhangrui/pure-node-notebook/issues"
+  },
+  "homepage": "https://github.com/code-zhangrui/pure-node-notebook#readme",
+  "devDependencies": {
+    "lodash": "^4.17.4"
+  }
+}
