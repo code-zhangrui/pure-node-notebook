@@ -1,9 +1,18 @@
-//api server
-module.exports=(url)=>{
-    let apiMap={
-        '/list.action':['吉他','三只松鼠','mongodb'],
-        '/user.action':['zhangrui','男性','中国人']
-    }
+module.exports=(request)=>{
+ 	let { url,method,context } = request;
 
-    return Promise.resolve(apiMap[url])
-}
+ 	let apiMap={
+		'/list.action':['鼓励','鼓劲','鼓气'],
+		'/user.action':['张睿','男人','中国人']
+ 	};
+ 	method = method.toLowerCase();
+
+ 	if(method == 'get'){    //localhost:7000?a=1&b=2
+ 		return Promise.resolve(apiMap[url])
+
+
+ 	 }else{
+ 		let {body} = context;               //处理post B post  ==socket==  S
+ 		return Promise.resolve(body)
+ 	 }
+   }

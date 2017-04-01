@@ -1,15 +1,12 @@
-let p = new Promise((resolve,reject)=>{
-  setTimeout(reject,1000,'hello world')
-});
-console.log(p)
-// then可接受两个参数, 第一个参数是resolve的结果
-// then可接受两个参数, 第二个参数是reject的结果
+const assert=require('assert');
 
-var another = p.then(val=>{
-  //处理 resolve 的结果
-  console.log(`resolve val is ${val}`)
-},val=>
-  //处理 reject 的结果
-  console.log(`reject val is ${val}`)
-)
-console.log(another instanceof Promise)
+const p=Promise.resolve(1);
+const p1=p.then(val=>{
+  console.log(val);
+  return val+1
+});
+
+const p2=p1.then(val=>{
+  console.log(val)
+  assert.equal(val,2);//做测试的
+})
