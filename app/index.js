@@ -16,12 +16,24 @@ class App {
 				query:{},
 				method:'get'
 			};
+			let context = {
+				req:request,
+				reqCtx:{
+					body:'',//post请求的数据
+					query:{},//处理客户端get请求
+				},
+				res:response,
+				resCtx:{
+					headers:{},//response的返回报文
+					body:'',//返回给前端的内容区
+				}
+			};
 
-			urlParser(request).then(()=>{
-				return apiServer(request)
+			urlParser(context).then(()=>{
+				return apiServer(context)
 			}).then(val=>{
 				if(!val){
-					return staticServer(request)
+					return staticServer(context)
 				}else{
 					return val
 				}

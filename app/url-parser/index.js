@@ -1,18 +1,19 @@
 //处理客户端数据
 
-module.exports = (request)=>{
-	let { method,url,context } = request;
+module.exports = (ctx)=>{
+	let { method,url,context } = ctx.req;
+	let { reqCtx } = ctx;
+
 	method = method.toLowerCase();
 	return Promise.resolve({
 		then:(resolve,reject)=>{
-			context.method = method;
-			context.query = {};
+
 			if(method == 'post'){
 				let data = '';
 		 		request.on('data',(chunk)=>{
 			 		data += chunk;
 			 	}).on('end',()=>{
-			 		context.body = JSON.parse(data);
+			 		reqCtx.body = JSON.parse(data);
 			 		resolve()
 			 	});
 			}else{

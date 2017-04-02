@@ -1,9 +1,10 @@
-
+//这个是去'抓'静态文件的js
 const path = require('path');
 const fs = require('fs');
 let getPath = url=>path.resolve(process.cwd(),'public',`.${url}`);
-let staticFunc = (request)=>{
-		let {url} = request
+let staticFunc = (ctx)=>{
+	let {url}=ctx.req;
+	let {resCtx}=ctx;
 		return new Promise((resolve,reject)=>{
 			if(url=='/'){
 				url = '/index.html';
@@ -11,9 +12,11 @@ let staticFunc = (request)=>{
 			let _path=getPath(url);
 			let body = fs.readFile(_path,(err,data)=>{
 				if(err){
-					resolve(`NOT FOUND${err.stack}`)
+					resCtx.body=`NOT FOUND${err.stack}`
 				}
-				resolve(data)
+				resCtx.body=data;
+				
+				resolve()
 			})	
 			})
 		};
