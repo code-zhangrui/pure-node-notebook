@@ -5,7 +5,8 @@ let getPath = url=>path.resolve(process.cwd(),'public',`.${url}`);
 let staticFunc = (ctx)=>{
 	let {url}=ctx.req;
 	let {resCtx}=ctx;
-		return new Promise((resolve,reject)=>{
+	return new Promise((resolve,reject)=>{
+	    if(!url.match('action')){	
 			if(url=='/'){
 				url = '/index.html';
 			}
@@ -15,10 +16,12 @@ let staticFunc = (ctx)=>{
 					resCtx.body=`NOT FOUND${err.stack}`
 				}
 				resCtx.body=data;
-				
 				resolve()
 			})	
-			})
-		};
+		}else{
+				resolve()
+			}
+		})
+	};
 
 module.exports = staticFunc

@@ -1,8 +1,8 @@
 setTimeout(function(){
-
 	$.ajax({
 		url:'/user.action',
-		method:'get',   //返回数组
+		method:'get',
+		//返回数组
 		success:function(arr){
 			var liStr = arr.map(function(ele){
 					return '<li>'+ele+'</li>'
@@ -14,10 +14,6 @@ setTimeout(function(){
 			console.log(error)
 		}
 	})
-
-
-
-
 	//模拟post
 	$.ajax({
 		url:'/list.action',
@@ -25,7 +21,8 @@ setTimeout(function(){
 		headers:{
 			'content-type':"application/json"
 		},
-		data:JSON.stringify(['杭州',"饥人谷"]),   //数组
+		data:JSON.stringify(['杭州',"张睿"]),
+		//返回数组
 		success:function(arr){
 			var liStr = arr.map(function(ele){
 					return '<li>'+ele+'</li>'
@@ -37,5 +34,4 @@ setTimeout(function(){
 			console.log(error)
 		}
 	})
-
-},1500)
+},1000)

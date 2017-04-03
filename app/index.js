@@ -1,21 +1,32 @@
 //主要入口
 const fs = require('fs');
 const path = require('path');
-const staticServer = require('./staic-server');
-const apiServer = require('./api');
-const urlParser = require('./url-parser');
 class App {
 	constructor(){
+		this.middlewareArr=[];
+		//设计一个空的Promise
+		this.middlewareChain=Promise.resolve();
 	}
-	
+	use(middleware){
+		this.middlewareArr.push(middleware);
+	}
+	//创建Promise链条
+    composeMiddleware(context){
+		let { middlewareArr }= this
+		//根据中间件数组 创建Promise链条
+		for(let middleware of middlewareArr){
+			this.middlewareChain = this.middlewareChain.then(()=>{
+				return middleware(context)
+			})
+		}
+		return this.middlewareChain
+	}
+
+
 	initServer(){
+		//初始化
 		return (request,response)=>{
 			let { url,method } = request; 
-			request.context = {
-				body:'',
-				query:{},
-				method:'get'
-			};
 			let context = {
 				req:request,
 				reqCtx:{
@@ -28,33 +39,23 @@ class App {
 					body:'',//返回给前端的内容区
 				}
 			};
+			//request + response
+ 			//Promise.resolve(参数) ==> 通过context对象来传递
 
-			urlParser(context).then(()=>{
-				return apiServer(context)
-			}).then(val=>{
-				if(!val){
-					return staticServer(context)
-				}else{
-					return val
-				}
+ 			// 1、 每一块中间件只需要关注修改context对象即可，彼此独立
+ 			// 2、 设计了use和composeMiddleware这两个api用来创建Promise链
+ 			// 3、 开发者可以专注于中间件开发
 
-			}).then(val=>{
+ 			// 函数体可以百年不变
+
+            this.composeMiddleware(context).then(()=>{
+				let { body,headers } = context.resCtx; 
 				let base ={'X-powered-by':'Node.js'};
-				let body = '';
-				if(val instanceof Buffer){
-					body = val;
-				}else{
-					body = JSON.stringify(val);
-					let fianlHeader = Object.assign(base,{
-						'Content-Type':'application/json'
-					});
-					response.writeHead(200,'resolve ok',fianlHeader)
-				}
-				response.end(body)	
+				response.writeHead(200,'resolve ok',Object.assign(base,headers));
+				response.end(body)
 			})
-		 }
 
-
+		}
 	}
 }
 module.exports =  App
