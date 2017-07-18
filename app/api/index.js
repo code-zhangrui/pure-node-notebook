@@ -1,7 +1,7 @@
 module.exports=(ctx)=>{
- 	 let {url,method}=ctx.req;
+ 	 let { url,method } = ctx.req;
 	 let { resCtx,reqCtx } = ctx;
-	 let {res}=ctx;
+	 let { res }=ctx;
 
  	let apiMap={
 		'/list.action':['鼓励','鼓劲','鼓气'],

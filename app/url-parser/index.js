@@ -13,7 +13,7 @@ module.exports = (ctx)=>{
 		 		ctx.req.on('data',(chunk)=>{
 			 		data.push(chunk);
 			 	}).on('end',()=>{
-					let endData=Buffer.concat(data).toString();
+					let endData = Buffer.concat(data).toString();
 			 		reqCtx.body = JSON.parse(endData);
 			 		resolve()
 			 	});

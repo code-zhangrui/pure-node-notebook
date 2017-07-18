@@ -3,16 +3,16 @@ const fs = require('fs');
 const path = require('path');
 class App {
 	constructor(){
-		this.middlewareArr=[];
+		this.middlewareArr = [];
 		//设计一个空的Promise
-		this.middlewareChain=Promise.resolve();
+		this.middlewareChain = Promise.resolve();
 	}
 	use(middleware){
 		this.middlewareArr.push(middleware);
 	}
 	//创建Promise链条
     composeMiddleware(context){
-		let { middlewareArr }= this
+		let { middlewareArr } = this
 		//根据中间件数组 创建Promise链条
 		for(let middleware of middlewareArr){
 			this.middlewareChain = this.middlewareChain.then(()=>{
