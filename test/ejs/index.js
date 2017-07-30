@@ -1,52 +1,36 @@
 
+const path=require('path');
+const ejs=require('ejs');
+// console.log(path);
+// console.log(ejs);
+// const html =`hello<%- world %><%- hhhh %>`;
+//==> (locals)=>'hello'+locals.world
+
 /* 
  * <% %> 逻辑运算
  * <%- %> unescape
  * <%= %> escape  XSS
  */
 
-const path=require('path');
-const ejs=require('ejs');
-
-// console.log(ejs);
+ // include 函数是 ejs 原生自带的
+ // 其调用 fs.readFileSync
 const html =`hello
-    <% if(world.match('jjj')){ %>
+    <% if(world.match('x')){ %>
     <%- world %>
+    <%- include('test.ejs')%>
     <% }%>
-    <%- include('./test') %>
     <%= hhh %>`;
-
-//==> (locals)=>'hello'+locals.world
-
 //将字符串转换成function
-const f1=ejs.compile(html,{
-    filename:path.resolve(__filename),
-    compileDebug:true,
-});
-// console.log('----',f1);
-
-const finalStr=f1({
-    world:'yyyy',
+const f1 = ejs.compile(html,{
+    filename: path.resolve(__filename),
+    compileDebug: true
+})
+// console.log('---------',f1);
+const finalStr = f1({
+    world:'xxxx',
     hhh:'<script>alert(1)</script>'
 });
-// console.log(finalStr)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+console.log(finalStr);
 
 
 // let test = ()=>{

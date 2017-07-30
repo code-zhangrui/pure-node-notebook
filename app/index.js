@@ -30,12 +30,12 @@ class App {
 			let context = {
 				req:request,
 				reqCtx:{
-					body:'',//post请求的数据
-					query:{},//处理客户端get请求
+					body:'',//post 请求的数据
+					query:{},//处理客户端 get 请求
 				},
 				res:response,
 				resCtx:{
-					headers:{},//response的返回报文
+					headers:{},//response 的返回报文
 					body:'',//返回给前端的内容区
 				}
 			};

@@ -1,4 +1,5 @@
 //处理客户端数据
+//抓 post 方法
 
 module.exports = (ctx)=>{
 	let { method,url } = ctx.req;
