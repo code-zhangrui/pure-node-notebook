@@ -11,7 +11,7 @@ class App {
 		this.middlewareArr.push(middleware);
 	}
 	//创建Promise链条
-    composeMiddleware(context){
+		composeMiddleware(context){
 		let { middlewareArr } = this
 		//根据中间件数组 创建Promise链条
 		for(let middleware of middlewareArr){
@@ -26,7 +26,7 @@ class App {
 	initServer(){
 		//初始化
 		return (request,response)=>{
-			let { url,method } = request; 
+			let { url,method } = request;
 			let context = {
 				req:request,
 				reqCtx:{
@@ -35,23 +35,27 @@ class App {
 				},
 				res:response,
 				resCtx:{
+					statusMessage:'resolve ok',
+					statusCode:200, //状态码
 					headers:{},//response 的返回报文
 					body:'',//返回给前端的内容区
 				}
 			};
 			//request + response
- 			//Promise.resolve(参数) ==> 通过context对象来传递
+			 //Promise.resolve(参数) ==> 通过context对象来传递
 
- 			// 1、 每一块中间件只需要关注修改context对象即可，彼此独立
- 			// 2、 设计了use和composeMiddleware这两个api用来创建Promise链
- 			// 3、 开发者可以专注于中间件开发
+			 // 1、 每一块中间件只需要关注修改context对象即可，彼此独立
+			 // 2、 设计了use和composeMiddleware这两个api用来创建Promise链
+			 // 3、 开发者可以专注于中间件开发
 
- 			// 函数体可以百年不变
+			 // 函数体可以百年不变
 
-            this.composeMiddleware(context).then(()=>{
-				let { body,headers } = context.resCtx; 
+			this.composeMiddleware(context).then(()=>{
+				//数组
+				//setHeader(key,value)
+				let { body,headers,statusCode,statusMessage } = context.resCtx;
 				let base ={'X-powered-by':'Node.js'};
-				response.writeHead(200,'resolve ok',Object.assign(base,headers));
+				response.writeHead(statusCode,statusMessage,Object.assign(base,headers));
 				response.end(body)
 			})
 
