@@ -20,7 +20,7 @@ module.exports = (ctx)=>{
 				const viewPath = path.resolve(__dirname,'ejs');
 				let ejsName = urlrewriteMap[url];
 				if(ejsName){
-					let layoutPath=path.resolve(viewPath,'layout.ejs');
+					let layoutPath = path.resolve(viewPath,'layout.ejs');
 					let layoutHtml = fs.readFileSync(layoutPath,'utf8');
 					// new Function
 					let render = ejs.compile(layoutHtml,{
